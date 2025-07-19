@@ -1,4 +1,5 @@
 ﻿using Interactions;
+using Unity.Properties;
 using UnityEngine;
 
 namespace Controls
@@ -12,60 +13,73 @@ namespace Controls
 
         private bool _positionOneSnapped;
         private bool _positionTwoSnapped;
-        private InteractableFood _interactableFoodOne;
-        private InteractableFood _interactableFoodTwo;
+        [DontCreateProperty] public InteractableFood interactableFoodOne;
+        [DontCreateProperty] public InteractableFood interactableFoodTwo;
 
         public void Update()
         {
-            if (_interactableFoodOne)
+            if (interactableFoodOne)
             {
                 if (!_positionOneSnapped &&
-                    Vector3.Distance(_interactableFoodOne.transform.position, objectOnePosition.position) >
+                    Vector3.Distance(interactableFoodOne.transform.position, objectOnePosition.position) >
                     animationEndDistance)
                 {
-                    _interactableFoodOne.transform.position = Vector3.Lerp(_interactableFoodOne.transform.position,
+                    interactableFoodOne.transform.position = Vector3.Lerp(interactableFoodOne.transform.position,
                         objectOnePosition.position, animationSpeed * Time.deltaTime);
                 }
                 else
                 {
                     _positionOneSnapped = true;
-                    _interactableFoodOne.transform.position = objectOnePosition.position;
+                    interactableFoodOne.transform.position = objectOnePosition.position;
                 }
             }
 
-            if (_interactableFoodTwo)
+            if (interactableFoodTwo)
             {
                 if (!_positionTwoSnapped &&
-                    Vector3.Distance(_interactableFoodTwo.transform.position, objectTwoPosition.position) >
+                    Vector3.Distance(interactableFoodTwo.transform.position, objectTwoPosition.position) >
                     animationEndDistance)
                 {
-                    _interactableFoodTwo.transform.position = Vector3.Lerp(_interactableFoodTwo.transform.position,
+                    interactableFoodTwo.transform.position = Vector3.Lerp(interactableFoodTwo.transform.position,
                         objectTwoPosition.position, animationSpeed * Time.deltaTime);
                 }
                 else
                 {
                     _positionTwoSnapped = true;
-                    _interactableFoodTwo.transform.position = objectTwoPosition.position;
+                    interactableFoodTwo.transform.position = objectTwoPosition.position;
                 }
             }
         }
-
-
+        
         public void AssignHand(InteractableFood interactableFood)
         {
-            if (!_interactableFoodOne)
+            if (!interactableFoodOne)
             {
-                _interactableFoodOne = interactableFood;
+                interactableFoodOne = interactableFood;
             }
-            else if (!_interactableFoodTwo)
+            else if (!interactableFoodTwo)
             {
-                _interactableFoodTwo = interactableFood;
+                interactableFoodTwo = interactableFood;
+            }
+        }
+
+        public void RemoveFromHand(InteractableFood interactableFood)
+        {
+            if (interactableFood == interactableFoodOne)
+            {
+                _positionOneSnapped = false;
+                interactableFoodOne = null;
+            }
+            if (interactableFood == interactableFoodTwo)
+            {
+                _positionTwoSnapped = false;
+                interactableFoodTwo = null;
             }
         }
 
         public bool CanPickUp()
         {
-            return _interactableFoodOne == null || _interactableFoodTwo == null;
+            return interactableFoodOne == null || interactableFoodTwo == null;
         }
     }
 }

@@ -1,5 +1,6 @@
 
 using Controls;
+using Objects.Foods;
 using UnityEngine;
 
 namespace Interactions
@@ -8,14 +9,12 @@ namespace Interactions
     {
 
         public Food foodType;
-        private bool _pickedUp;
 
         public override void Interact()
         {
-            if (_pickedUp) return;
-            _pickedUp = true;
-            Debug.Log("Food picked up");
             var handControls = GameObject.FindGameObjectWithTag(Constants.PlayerTag).GetComponent<HandsControls>();
+            if (!handControls.CanPickUp()) return;
+            enabled = false;
             handControls.AssignHand(this);
         }
     }

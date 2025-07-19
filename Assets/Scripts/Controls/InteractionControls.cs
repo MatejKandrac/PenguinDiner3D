@@ -4,12 +4,10 @@ using UnityEngine.InputSystem;
 
 namespace Controls
 {
-    [RequireComponent(typeof(HandsControls))]
     public class InteractionControls : MonoBehaviour
     {
         public LayerMask interactableLayers;
         public float interactionDistance = 3.5f;
-        private HandsControls _handsControls;
         private Camera _camera;
         private Interactable _currentInteractable;
 
@@ -17,7 +15,6 @@ namespace Controls
         void Start()
         {
             _camera = Camera.main;
-            _handsControls = GetComponent<HandsControls>();
         }
 
         // Update is called once per frame
@@ -47,7 +44,7 @@ namespace Controls
 
         public void OnInteract(InputAction.CallbackContext context)
         {
-            if (!context.started || !_handsControls.CanPickUp()) return;
+            if (!context.started) return;
             _currentInteractable?.Interact();
             _currentInteractable = null;
         }

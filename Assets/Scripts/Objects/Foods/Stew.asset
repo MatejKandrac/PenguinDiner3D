@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d244f48696ec534195ebdadb70d462d, type: 3}
   m_Name: Stew
   m_EditorClassIdentifier: 
+  foodType: 1
